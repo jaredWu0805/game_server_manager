@@ -7,7 +7,8 @@ db = SQLAlchemy()
 # Table of Game servers
 class GameServers(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    ip = db.Column(db.String(80), unique=True, nullable=False)
+    server_ip = db.Column(db.String(80), unique=True, nullable=False)
+    client_ip = db.Column(db.String(80), unique=True, nullable=True)
     created_at = db.Column(db.DateTime, nullable=False,
                            default=datetime.utcnow)
     last_connection_at = db.Column(db.DateTime, nullable=True)
@@ -29,6 +30,12 @@ class StreamList(db.Model):
     def __repr__(self):
         return 'Game: {0}, Server ip: {1}, num of audience: {2}'.format(self.game_title,
                                                                         self.server_ip, self.num_of_audience)
+
+
+class WaitingList(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    client_ip = db.Column(db.String(32), unique=True, nullable=False)
+    server_ip = db.Column(db.String(32), unique=True, nullable=False)
 
 # Way to add new table
 # StreamList.__table__.create(db.session.bind)
